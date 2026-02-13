@@ -1,23 +1,24 @@
-import { serve } from "@hono/node-server";
-import { Hono } from "hono";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import * as shellController from "./shellController.js";
+import { createValidator, updateValidator } from "./validators/seashell.js";
 
-const app = new Hono();
+const app = new OpenAPIHono();
 
-const port = 8000;
+app.get("/seashells", shellController.listSeashells);
+app.get("/seashells/:id", shellController.getSeashell);
 
-app.get("/", (c) => {
-    return c.text("Welcome to Seashell REST API\n");
-})
+app.post(
+  "/seashells", 
+  createValidator, 
+  shellController.addSeashell
+);
 
-app.post("/", (c) => {
-    return c.text("All seashells\n");
-})
+app.put(
+  "/seashells/:id", 
+  updateValidator, 
+  shellController.updateSeashell
+);
 
-console.log(`Running app on localhost:${port}`)
+app.delete("/seashells/:id", shellController.deleteSeashell);
 
-serve({
-    fetch: app.fetch,
-    port,
-})
-
-
+export default app;
