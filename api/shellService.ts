@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import prisma from "./db.js";
 
-import type { CreateSeashellDto } from "./validators/seashell.js";
+import type { CreateSeashellDto } from "./seashell.schema.js";
 
 // SERVICE LAYER: Handles logic and database interaction
 

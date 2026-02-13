@@ -1,28 +1,27 @@
-import type { Context } from "hono";
 import * as shellService from "./shellService.js";
-import type { SeaShellContext } from "./validators/seashell.js";
+import * as route from "./routes.js"
+import type { RouteHandler } from "@hono/zod-openapi";
 
 // --- 3. The Controller Functions ---
 
-export const listSeashells = async (c: Context) => {
+const listSeashells: RouteHandler<typeof route.getAll> = async (c) => {
   const shells = await shellService.listSeashells();
-  return c.json(shells);
+  return c.json(shells, 200);
 };
 
-export const getSeashell = async (c: Context) => {
-  const id = Number(c.req.param("id"));
-  if (isNaN(id)) return c.json({ error: "Invalid ID" }, 400);
-
+const getSeashell: RouteHandler<typeof route.getOne> = async (c) => {
+  const { id } = c.req.valid("param");
   try {
     const shell = await shellService.getSeashell(id);
-    return c.json(shell);
+    return c.json(shell, 200);
   } catch (error) {
     return c.json({ error: "Seashell not found" }, 404);
   }
 };
 
-export const addSeashell = async (c: SeaShellContext) => {
+const addSeashell: RouteHandler<typeof route.createSeashell> = async (c) => {
   const data = c.req.valid("json");
+
   try {
     const newShell = await shellService.addSeashell(data);
     return c.json(newShell, 201);
@@ -31,28 +30,32 @@ export const addSeashell = async (c: SeaShellContext) => {
   }
 };
 
-export const updateSeashell = async (c: SeaShellContext) => {
-  const id = Number(c.req.param("id"));
+const updateSeashell: RouteHandler<typeof route.updateSeashell> = async (c) => {
+  const { id } = c.req.valid("param");
   const data = c.req.valid("json");
-
-  if (isNaN(id)) return c.json({ error: "Invalid ID" }, 400);
 
   try {
     const updated = await shellService.updateSeashell(id, data);
-    return c.json(updated);
+    return c.json(updated, 200);
   } catch (error) {
     return c.json({ error: "Seashell not found" }, 404);
   }
 };
 
-export const deleteSeashell = async (c: Context) => {
-  const id = Number(c.req.param("id"));
-  if (isNaN(id)) return c.json({ error: "Invalid ID" }, 400);
+const deleteSeashell: RouteHandler<typeof route.deleteSeashell> = async (c) => {
+  const { id } = c.req.valid("param");
 
   try {
     await shellService.deleteSeashell(id);
-    return c.json({ message: "Deleted successfully" });
+    return c.json({ message: "Deleted successfully" }, 200);
   } catch (error) {
     return c.json({ error: "Seashell not found" }, 404);
   }
 };
+
+export {listSeashells,
+  getSeashell,
+  addSeashell,
+  updateSeashell,
+  deleteSeashell
+}

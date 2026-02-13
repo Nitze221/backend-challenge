@@ -1,24 +1,27 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
+import * as route from './routes.js'
 import * as shellController from "./shellController.js";
-import { createValidator, updateValidator } from "./validators/seashell.js";
 
-const app = new OpenAPIHono();
+const app = new OpenAPIHono({
+  defaultHook: (result, c) => {
+    if (!result.success) {
+        return c.json({
+            error: "Invalid input",
+            details: result.error.issues.map(issue => {
+                return { [issue.path.join('.')]: issue.message };
+            }),
+        }, 400);
+    }
+  }
+});
 
-app.get("/seashells", shellController.listSeashells);
-app.get("/seashells/:id", shellController.getSeashell);
+app.openapi(route.getAll, shellController.listSeashells);
+app.openapi(route.getOne, shellController.getSeashell);
 
-app.post(
-  "/seashells", 
-  createValidator, 
-  shellController.addSeashell
-);
+app.openapi(route.createSeashell, shellController.addSeashell);
 
-app.put(
-  "/seashells/:id", 
-  updateValidator, 
-  shellController.updateSeashell
-);
+app.openapi(route.updateSeashell, shellController.updateSeashell);
 
-app.delete("/seashells/:id", shellController.deleteSeashell);
+app.openapi(route.deleteSeashell, shellController.deleteSeashell);
 
 export default app;

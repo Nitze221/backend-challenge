@@ -5,7 +5,7 @@ dist/
 *.js.map
 *.d.ts
 
-/generated/prisma
+prisma/generated/
 
 .env
 
