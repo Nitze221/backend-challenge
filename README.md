@@ -6,59 +6,16 @@ A REST API for managing a seashell collection. This project is built using **Hon
 
 ### 1. Prerequisites
 
-* **Node.js**: `>=18.0.0` (Recommended: v20 or v22 LTS)
-* **npm**: Included with Node.js
+* Docker & Docker Compose
 
-### 2. Quick Setup
+### 2. Build and run with Docker 
 
-For convenience, a setup script is provided to handle environment configuration, dependency installation, and database initialization:
-
-```bash
-npm run setup
-
-```
-
-### 3. Manual Installation
-
-If you prefer to run steps individually:
+Install + run Alpine Node and PostgreSQL container via docker compose
 
 ```bash
-# 1. Install dependencies
-npm install
-
-# 2. Setup environment
-cp .env.example .env
-
-# 3. Initialize database & generate types
-npx prisma migrate dev --name init
-
-# 4. Seed sample data
-npx prisma db seed
+docker compose -f docker-compose.yml up --build
 
 ```
-
-### 5. Running the App
-
-Development Mode
-
-Uses tsx watch to automatically reload the server on every file change:
-
-```bash
-npm run dev
-
-```
-Production Build
-
-Compile the TypeScript to JavaScript and run via the native Node.js engine:
-```bash
-
-# 1. Compile TypeScript to /dist
-npm run build
-
-# 2. Run the compiled JavaScript
-npm run start
-```
-
 
 The server will start on [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000).
 
@@ -98,7 +55,7 @@ This project follows a **Layered Architecture** to ensure high maintainability a
 * **Framework:** [Hono](https://hono.dev/)
 * **Validation:** [Zod](https://zod.dev/)
 * **ORM:** [Prisma](https://www.prisma.io/)
-* **Database:** SQLite
+* **Database:** PostgreSQL
 * **API Docs:** Swagger UI & OpenAPI 3.0
 
 ---

@@ -1,8 +1,10 @@
 -- CreateTable
 CREATE TABLE "Seashell" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "species" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "rarity" TEXT NOT NULL DEFAULT 'common'
+    "rarity" TEXT NOT NULL DEFAULT 'common',
+
+    CONSTRAINT "Seashell_pkey" PRIMARY KEY ("id")
 );

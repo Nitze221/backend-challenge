@@ -7,9 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx tsx watch api/app-run.ts",
     "build": "tsc",
-    "start": "node dist/api/app-run.js",
+    "start": "node --experimental-strip-types dist/api/app-run.js",
     "generate": "npx prisma generate",
-    "setup": "cp .env.example .env && npm install && npx prisma migrate dev --name init && npx prisma generate && npx prisma db seed"
+    "setup": "cp .env.example .env && npm install && npx prisma migrate dev --name init && npx prisma generate && npx prisma db seed",
+    "db:deploy": "npx prisma migrate deploy && npx prisma db seed"
   },
   "repository": {
     "type": "git",
@@ -26,13 +27,15 @@
   "dependencies": {
     "@hono/swagger-ui": "^0.5.3",
     "@hono/zod-openapi": "^1.2.1",
-    "@prisma/adapter-better-sqlite3": "^7.4.0",
+    "@prisma/adapter-pg": "^7.4.0",
     "@prisma/client": "^7.4.0",
     "hono": "^4.11.9",
+    "pg": "^8.18.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^25.2.3",
+    "@types/pg": "^8.16.0",
     "dotenv": "^17.3.1",
     "prisma": "^7.4.0",
     "ts-node-dev": "^2.0.0",
