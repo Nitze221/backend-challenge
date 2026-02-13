@@ -1,0 +1,52 @@
+@baseUrl = http://localhost:3000
+
+### 1. HEALTH CHECK: List all seashells (Should be empty initially)
+GET {{baseUrl}}/seashells
+
+### 2. CREATE: Add a valid seashell
+POST {{baseUrl}}/seashells
+Content-Type: application/json
+
+{
+  "name": "Queen Conch",
+  "species": "Strombus gigas",
+  "description": "A large, spiral shell often used as a trumpet.",
+  "rarity": "common"
+}
+
+### 3. CREATE: Add another one (Testing optional fields)
+POST {{baseUrl}}/seashells
+Content-Type: application/json
+
+{
+  "name": "Lion's Paw",
+  "species": "Nodipecten nodosus"
+  // Intentionally leaving out description and rarity to test defaults
+}
+
+### 4. VALIDATION TEST: Try to add garbage (Should fail with 400)
+POST {{baseUrl}}/seashells
+Content-Type: application/json
+
+{
+  "name": "", 
+  "species": "I have no name"
+}
+
+### 5. READ: Get the first seashell (ID 1)
+GET {{baseUrl}}/seashells/1
+
+### 6. UPDATE: Partial Update (PATCH style)
+# We only change the rarity. Name and species should stay the same.
+PUT {{baseUrl}}/seashells/1
+Content-Type: application/json
+
+{
+  "rarity": "legendary"
+}
+
+### 7. DELETE: Remove the first seashell
+DELETE {{baseUrl}}/seashells/1
+
+### 8. VERIFY: Try to get the deleted shell (Should be 404)
+GET {{baseUrl}}/seashells/1
