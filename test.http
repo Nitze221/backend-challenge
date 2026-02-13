@@ -1,5 +1,11 @@
 @baseUrl = http://localhost:3000
 
+### Get OpenAPI Spec
+GET http://localhost:3000/doc
+
+### Access Swagger UI (Check if it returns 200)
+GET http://localhost:3000/
+
 ### 1. HEALTH CHECK: List all seashells (Should be empty initially)
 GET {{baseUrl}}/seashells
 

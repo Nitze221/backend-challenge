@@ -25,6 +25,8 @@ export const commonErrors = {
 const getAll = createRoute({
   method: 'get',
   path: '/seashells',
+  tags: ['Seashells'],
+  summary: 'Show all seashells',
   responses: {
     200: {
       content: { 'application/json': { schema: z.array(SeashellResponseSchema) } },
@@ -38,6 +40,8 @@ const getAll = createRoute({
 const getOne = createRoute({
   method: 'get',
   path: '/seashells/{id}',
+  tags: ['Seashells'],
+  summary: 'Show one seashell',
   request: { params: IdParamSchema },
   responses: {
     200: {
@@ -52,6 +56,8 @@ const getOne = createRoute({
 const createSeashell = createRoute({
   method: 'post',
   path: '/seashells',
+  tags: ['Seashells'],
+  summary: 'Add a new seashell',
   request: {
     body: { content: { 'application/json': { schema: CreateSeashellSchema } } },
   },
@@ -68,6 +74,8 @@ const createSeashell = createRoute({
 const updateSeashell = createRoute({
   method: 'put',
   path: '/seashells/{id}',
+  tags: ['Seashells'],
+  summary: 'Update a seashell',
   request: {
     params: IdParamSchema,
     body: { content: { 'application/json': { schema: CreateSeashellSchema.partial() } } },
@@ -85,6 +93,8 @@ const updateSeashell = createRoute({
 const deleteSeashell = createRoute({
   method: 'delete',
   path: '/seashells/{id}',
+  tags: ['Seashells'],
+  summary: 'Delete a seashell',
   request: { params: IdParamSchema },
   responses: {
     200: {
